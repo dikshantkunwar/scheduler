@@ -2,6 +2,14 @@ import React from "react";
 import "components/DayListItem.scss"
 const classNames = require('classnames');
 
+const formatSpots = (spots) => {
+  if (spots === undefined){
+    return '';
+  }
+  return spots.toString().trim()
+  //return spots.toString().replace(/\r?\n|\r/, "lalalalala");
+} 
+
 export default function DayListItem(props) {
 
   const dayListClass = classNames("day-list__item", {
@@ -12,7 +20,10 @@ export default function DayListItem(props) {
   return (
     <li className = {dayListClass} onClick={() => props.setDay(props.name) }>
       <h2 className="text--regular">{props.name}</h2>
-      <h3 className="text--light">{props.spots} spots remaining</h3>
+      <h3 className="text--light">{formatSpots(props.spots)} spots remaining</h3>
     </li>
   )
 }
+
+
+
