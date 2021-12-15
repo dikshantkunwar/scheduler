@@ -8,6 +8,11 @@ import "index.scss";
 import Button from "components/Button";
 import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
+import Appointment from "components/Appointment"
+import Header from "components/Header"
+import Form from "components/Form"
+import InterviewerList from "components/InterviewerList"
+import InterviewerListItem from "components/InterviewerListItem"
 
 storiesOf("Button", module)
   .addParameters({
@@ -45,4 +50,56 @@ storiesOf("Button", module)
   ))
   .add("Tuesday", () => (
     <DayList days={days} day={"Tuesday"} setDay={action("setDay")} />
+  ));
+
+  const interviewer = {
+    id: 1,
+    name: "Sylvia Palmer",
+    avatar: "https://i.imgur.com/LpaY82x.png"
+  };
+
+  const days = [
+    {
+      id: 1,
+      name: "Monday",
+      spots: 2,
+    },
+    {
+      id: 2,
+      name: "Tuesday",
+      spots: 5,
+    },
+    {
+      id: 3,
+      name: "Wednesday",
+      spots: 0,
+    },
+  ];
+
+  storiesOf("Appointment", module)
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+  })
+  .add("Unselected", () => (
+    <InterviewerListItem
+      id={interviewer.id}
+      name={interviewer.name}
+      avatar={interviewer.avatar}
+    />
+  ))
+  .add("Selected", () => (
+    <InterviewerListItem
+      id={interviewer.id}
+      name={interviewer.name}
+      avatar={interviewer.avatar}
+      selected
+    />
+  ))
+  .add("Clickable", () => (
+    <InterviewerListItem
+      id={interviewer.id}
+      name={interviewer.name}
+      avatar={interviewer.avatar}
+      setInterviewer={action("setInterviewer")}
+    />
   ));
