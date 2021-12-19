@@ -7,7 +7,6 @@ const formatSpots = (spots) => {
     return '';
   }
   return spots.toString().trim()
-  //return spots.toString().replace(/\r?\n|\r/, "lalalalala");
 } 
 
 export default function DayListItem(props) {
