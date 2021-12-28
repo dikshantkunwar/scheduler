@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
 
 export default function Form(props) {
+  const [name, setName] = useState(props.name || "");
+  const [interviewer, setInterviewer] = useState(props.interviewer || "");
 
   return (
     <main className="appointment__card appointment__card--create">
