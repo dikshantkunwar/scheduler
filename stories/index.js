@@ -166,16 +166,14 @@ storiesOf("Button", module)
         interviewers = {interviewers}
         onSave = {action("onSave")}
         onCancel = {action("onCancel")}
-        setInterviewer = {action("setInterviewer")}
       />
     ))
     .add("Edit form", () => (
       <Form
         name = "name"
         interviewers = {interviewers}
-        interviewer = {interviewer}
+        interviewer = {1}
         onSave = {action("onSave")}
         onCancel = {action("onCancel")}
-        setInterviewer = {action("setInterviewer")}
       />
     ))
