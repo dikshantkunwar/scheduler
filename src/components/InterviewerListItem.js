@@ -10,6 +10,7 @@ export default function InterviewerListItem(props) {
 
   return (
     <li 
+      key={props.id}
       className={interviewerListClass} 
       onClick = {props.setInterviewer}
     >
