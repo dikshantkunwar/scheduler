@@ -123,13 +123,14 @@ storiesOf("Button", module)
     })
     .add("Initial", () => (
       <InterviewerList
-        interviewers={interviewers}
+        // interviewers={interviewers}
+        value={interviewer}
         onChange = {action("setInterviewer")}
       />
     ))
     .add("Preselected", () => (
       <InterviewerList
-        interviewers={interviewers}
+        // interviewers={interviewers}
         value={3}
         onChange = {action("setInterviewer")}
       />
@@ -165,6 +166,7 @@ storiesOf("Button", module)
         interviewers = {interviewers}
         onSave = {action("onSave")}
         onCancel = {action("onCancel")}
+        setInterviewer = {action("setInterviewer")}
       />
     ))
     .add("Edit form", () => (
@@ -174,5 +176,6 @@ storiesOf("Button", module)
         interviewer = {interviewer}
         onSave = {action("onSave")}
         onCancel = {action("onCancel")}
+        setInterviewer = {action("setInterviewer")}
       />
     ))
