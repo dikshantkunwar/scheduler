@@ -5,10 +5,11 @@ import Show from "./Show"
 import "./styles.scss"
 
 export default function Appointment(props) {
+  const {time, interview} = props
   return(
     <article className="appointment">
-      <Header time={props.time}/>
-      {props.interview ? <Show student={props.interview.student} interviewer={props.interview.interviewer}/> : <Empty />}
+      <Header id={props.id} time={time} />
+      {props.interview ? <Show student={interview.student} interviewer={interview.interviewer}/> : <Empty />}
     </article>
   )
 }

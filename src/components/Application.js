@@ -41,7 +41,7 @@ const appointments = [
   }, 
   {
     id: 3,
-    time: "4pm",
+    time: "2pm",
     interview: {
       student: "Jonathan Banks",
       interviewer: {
@@ -53,18 +53,18 @@ const appointments = [
   },
   {
     id: 4,
-    time: "5:30pm"
+    time: "3:30pm"
   },
   {
     id: "last",
-    time: "6pm",
+    time: "4pm",
   }
 ];
 
 export default function Application(props) {
   const [day, setDay] = useState("Monday")
   const appointmentData = appointments.map( appointment => {
-    return <Appointment key={appointment.id} time={appointment.time} interview={appointment.interview} />
+    return <Appointment key={appointment.id} {...appointment} />
   })
 
   return (
