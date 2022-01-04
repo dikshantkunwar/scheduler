@@ -51,7 +51,7 @@ export default function Application(props) {
       console.log(response.data)
       setDate([...response.data])
     })
-  }, [days])
+  }, [])
 
   const [day, setDay] = useState("Monday")
   const appointmentData = appointments.map( appointment => {
