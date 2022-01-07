@@ -20,14 +20,29 @@ export function getAppointmentsForDay(state, day) {
   }
 
   const appointments = days[0].appointments;
-  let results = [];
-
+  let appointmentArray = [];
   appointments.forEach( (appt) => {
     if (state.appointments.hasOwnProperty(`${appt}`)) {
-      results.push(state.appointments[`${appt}`]);
+      appointmentArray.push(state.appointments[`${appt}`]);
     }
   });
 
-  return results;
+  return appointmentArray;
+}
 
+// const interview = getInterview(state, appointment.interview);
+export function getInterview(state, interview) {
+  if (interview === null) {
+    return null
+  }
+
+  let interviewObj = { ...interview }
+  for (let key in state.interviewers) {
+    console.log(key)
+    if (key == interview.interviewer) {
+      interviewObj['interviewer'] = state.interviewers[key]
+    }
+  }
+
+  return interviewObj;
 }

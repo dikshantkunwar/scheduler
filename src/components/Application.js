@@ -27,9 +27,15 @@ export default function Application(props) {
   }, []);
 
   const appointments = getAppointmentsForDay(state, state.day)
+  const schedule = appointments.map( appointment => {
+    const interview = getInterview(state, appointment.interview);
 
-  const appointmentData = appointments.map( appointment => {
-    return <Appointment key={appointment.id} {...appointment} />
+    return (
+      <Appointment 
+        key={appointment.id} 
+        {...appointment}
+        interview={interview} 
+      />)
   });
   
   return (
@@ -56,7 +62,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
-        {appointmentData}
+        {schedule}
       </section>
     </main>
   );
