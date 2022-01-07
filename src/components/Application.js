@@ -4,6 +4,7 @@ import axios from 'axios'
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment/index";
+import { getAppointmentsForDay } from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -12,7 +13,6 @@ export default function Application(props) {
     appointments: {}
   });
   
-  const dailyAppointments = [];
   const setDay = day => setState(prev => ({ ...prev, day }));
 
   useEffect(() => {
@@ -26,14 +26,12 @@ export default function Application(props) {
     });
   }, []);
 
-  dailyAppointments.map( appointment => {
+  const appointments = getAppointmentsForDay(state, state.day)
+
+  const appointmentData = appointments.map( appointment => {
     return <Appointment key={appointment.id} {...appointment} />
   });
   
-  // const appointmentData = appointments.map( appointment => {
-  //   return <Appointment key={appointment.id} {...appointment} />
-  // });
-
   return (
     <main className="layout">
       <section className="sidebar">
@@ -58,7 +56,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
-        {dailyAppointments}
+        {appointmentData}
       </section>
     </main>
   );
