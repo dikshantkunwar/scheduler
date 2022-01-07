@@ -7,7 +7,7 @@ export function getAppointmentsForDay(state, day) {
   const days = state.days.filter( (item) => {
     if (item.name === day) {
       return true;
-    } 
+    } else return false;
   });
 
   // return empty array when day not found
@@ -21,17 +21,13 @@ export function getAppointmentsForDay(state, day) {
 
   const appointments = days[0].appointments;
   let results = [];
-  
-  appointments.forEach( (appointment) => {
-    for (let appointmentVal in state.appointments) {
-      if (appointment.toString() === appointmentVal) {
-        results.push(state.appointments[appointmentVal]);
-      }
+
+  appointments.forEach( (appt) => {
+    if (state.appointments.hasOwnProperty(`${appt}`)) {
+      results.push(state.appointments[`${appt}`]);
     }
   });
 
-  if (results.length > 0) {
-    return results;
-  }
+  return results;
 
 }
