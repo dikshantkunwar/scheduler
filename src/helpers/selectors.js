@@ -38,8 +38,7 @@ export function getInterview(state, interview) {
 
   let interviewObj = { ...interview }
   for (let key in state.interviewers) {
-    console.log(key)
-    if (key == interview.interviewer) {
+    if (key.toString() === interview.interviewer) {
       interviewObj['interviewer'] = state.interviewers[key]
     }
   }
