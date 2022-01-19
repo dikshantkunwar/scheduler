@@ -14,6 +14,20 @@ export default function Application(props) {
   });
   
   const setDay = day => setState(prev => ({ ...prev, day }));
+  function bookInterview(id, interview) {
+    // Change local state of interview when an interview is booked
+    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    setState({ ...state, appointments });
+  }
 
   useEffect(() => {
     Promise.all([
@@ -35,8 +49,11 @@ export default function Application(props) {
         key={appointment.id} 
         {...appointment}
         interview={interview} 
+        bookInterview = {bookInterview}
       />)
   });
+
+  
   
   return (
     <main className="layout">
