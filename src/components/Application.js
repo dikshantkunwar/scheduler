@@ -4,7 +4,7 @@ import axios from 'axios'
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointment/index";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -27,6 +27,9 @@ export default function Application(props) {
     };
 
     setState({ ...state, appointments });
+    axios.put(`/api/appointments/${id}`)
+    .then(res => console.log(res));
+
   }
 
   useEffect(() => {
@@ -40,15 +43,18 @@ export default function Application(props) {
     });
   }, []);
 
+  console.log(state)
   const appointments = getAppointmentsForDay(state, state.day)
   const schedule = appointments.map( appointment => {
   const interview = getInterview(state, appointment.interview);
+  const interviewers = getInterviewersForDay(state, appointment.interview)
 
     return (
       <Appointment 
         key={appointment.id} 
         {...appointment}
         interview={interview} 
+        interviewers={interviewers}
         bookInterview = {bookInterview}
       />)
   });

@@ -20,14 +20,14 @@ export function getAppointmentsForDay(state, day) {
   }
 
   const appointments = days[0].appointments;
-  let appointmentArray = [];
+  let appointmentArr = [];
   appointments.forEach( (appt) => {
     if (state.appointments.hasOwnProperty(`${appt}`)) {
-      appointmentArray.push(state.appointments[`${appt}`]);
+      appointmentArr.push(state.appointments[`${appt}`]);
     }
   });
 
-  return appointmentArray;
+  return appointmentArr;
 }
 /*
 - Expected
@@ -62,33 +62,16 @@ export function getInterview(state, interview) {
 }
 
 export function getInterviewersForDay (state, day) {
-  // returns an array of appointments for that day
-  if (state.days.length === 0 || state.days === undefined) {
+  const interviewerIdx = state.days.filter(days => days.name === day);
+  let interviewerArr = [];
+
+  if (interviewerIdx.length === 0) {
     return [];
-  }
-
-  const days = state.days.filter( (item) => {
-    if (item.name === day) {
-      return true;
-    } else return false;
-  });
-
-  // return empty array when day not found
-  if (days.length === 0) {
-    return [];
-  }
-
-  if (days[0].appointments.length === 0 || days[0].appointments === undefined){
-    return [];
-  }
-
-  const appointments = days[0].appointments;
-  let appointmentArray = [];
-  appointments.forEach( (appt) => {
-    if (state.appointments.hasOwnProperty(`${appt}`)) {
-      appointmentArray.push(state.appointments[`${appt}`]);
+  } else {
+    for (let id of interviewerIdx[0].interviewers) {
+      interviewerArr.push(state.interviewers[id])
     }
-  });
+  }
 
-  return appointmentArray;
+  return interviewerArr;
 }
