@@ -19,7 +19,6 @@ export default function Appointment(props) {
   )
 
   function save(name, interviewer) {
-    console.log('save: ', name, interviewer);
     const interview = {
       student: name, 
       interviewer
@@ -43,8 +42,8 @@ export default function Appointment(props) {
       {mode === CREATE && (
         <Form
           interviewers = {interviewerList}
-          onCancel = {() => back()}
-          onSave = {() => save()}
+          onCancel = {back}
+          onSave = {save}
         />
       )}
     </article>

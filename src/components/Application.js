@@ -26,9 +26,11 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    setState({ ...state, appointments });
-    axios.put(`/api/appointments/${id}`)
-    .then(res => console.log(res));
+    // setState({ ...state, appointments });
+    return axios.put(`/api/appointments/${id}`, { ...appointment })
+    .then(res => {
+      console.log('response', res);
+    });
 
   }
 
@@ -54,7 +56,6 @@ export default function Application(props) {
       <Appointment 
         key={appointment.id} 
         {...appointment}
-        interview={interview} 
         interviewerList = {interviewers}
         interviewers={getInterview(state, appointment.interview)}
         bookInterview = {bookInterview}
