@@ -13,7 +13,7 @@ const EMPTY = "EMPTY",
       SAVE = "SAVE";
 
 export default function Appointment(props) {
-  const { time, interview } = props
+  const { time, interview, interviewers, interviewerList } = props
   const { mode, transition, back } = useVisualMode(
     interview ? SHOW : EMPTY
   )
@@ -42,7 +42,7 @@ export default function Appointment(props) {
       )}
       {mode === CREATE && (
         <Form
-          interviewers = {props.interviewers}
+          interviewers = {interviewerList}
           onCancel = {() => back()}
           onSave = {() => save()}
         />

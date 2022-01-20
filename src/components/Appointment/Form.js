@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
-//onChange = {action("setInterviewer")}
+
 export default function Form(props) {
   const [name, setName] = useState(props.name || "");
-  const [interviewer, setInterviewer] = useState(props.interviewer || "");
+  const [interviewer, setInterviewer] = useState(props.interviewer || null);
+
+  console.log('form interviewer render : ', interviewer)
 
   function reset() {
     setName("")
@@ -14,6 +16,19 @@ export default function Form(props) {
   function cancel() {
     reset()
     props.onCancel()
+  }
+
+  function validate() {
+    if (name === ""){
+      console.log("name is empty");
+      return;
+    }
+
+    if (interviewer === null){
+      console.log("interviewer is empty");
+      return;
+    }
+    props.onSave(name, interviewer)
   }
 
   return (
@@ -41,7 +56,7 @@ export default function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={() => cancel()}>Cancel</Button>
-          <Button confirm onClick={() => props.onSave(name, interviewer)}>Save</Button>
+          <Button confirm onClick={() => validate()}>Save</Button>
         </section>
       </section>
     </main>

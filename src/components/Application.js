@@ -55,7 +55,8 @@ export default function Application(props) {
         key={appointment.id} 
         {...appointment}
         interview={interview} 
-        interviewers={interviewers}
+        interviewerList = {interviewers}
+        interviewers={getInterview(state, appointment.interview)}
         bookInterview = {bookInterview}
       />)
   });
