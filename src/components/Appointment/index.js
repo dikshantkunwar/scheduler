@@ -13,8 +13,8 @@ import Error from "./Error"
 const EMPTY = "EMPTY",
       SHOW = "SHOW",
       CREATE = "CREATE",
-      SAVE = "SAVE",
       SAVING = "SAVING",
+      EDIT = "EDIT",
       DELETING = "DELETING",
       CONFIRM = "CONFIRM",
       ERROR_SAVE = "ERROR_SAVE",
@@ -35,7 +35,7 @@ export default function Appointment(props) {
     props.bookInterview(props.id, interview)
     .then(() => transition(SHOW))
     .catch(error => {
-      transition(ERROR_SAVE);
+      transition(ERROR_SAVE, true);
     });
   }
 
@@ -59,10 +59,20 @@ export default function Appointment(props) {
           student = {interviewers.student}
           interviewer = {interviewers.interviewer}
           onDelete = {() => transition(CONFIRM)}
+          onEdit = {() => transition(EDIT)}
         />
       )}
       {mode === CREATE && (
         <Form
+          interviewers = {interviewerList}
+          onCancel = {back}
+          onSave = {save}
+        />
+      )}
+      {mode === EDIT && (
+        <Form 
+          interviewer = {interview.interviewer}
+          name = {interview.student}
           interviewers = {interviewerList}
           onCancel = {back}
           onSave = {save}
@@ -75,8 +85,8 @@ export default function Appointment(props) {
           onCancel = {back} 
         />
       )}
-      {mode === ERROR_SAVE && ( <Error onClose={} message="Could not save appointment."/> )}
-      {mode === ERROR_DELETE && (<Error onClose={} message="Could not delete appointment." /> )}
+      {mode === ERROR_SAVE && ( <Error message="Could not save appointment."/> )}
+      {mode === ERROR_DELETE && (<Error message="Could not delete appointment." /> )}
     </article>
   )
 }
