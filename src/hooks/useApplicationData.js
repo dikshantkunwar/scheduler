@@ -32,18 +32,8 @@ function reducer(state, action) {
         days
       }
   }
-  if (action.type === "setDay") {
-
-  }
 }
-
 export default function useApplicationData() {
-
-  // const [state, setState] = useState({
-  //   day: "Monday",
-  //   days: [],
-  //   appointments: {}
-  // });
   const initialState = {day: "Monday", days: [], appointments: {}}
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -54,7 +44,6 @@ export default function useApplicationData() {
       axios.get('/api/interviewers')
     ]).then((all) => {
       const [days, appointments, interviewers] = all;
-      // setState(prev => ({...prev, days: days.data, appointments: appointments.data, interviewers: interviewers.data}));
       dispatch({
          type: "SET_APPLICATION_DATA", 
          value: {days: days.data, appointments: appointments.data, interviewers: interviewers.data}
@@ -62,25 +51,13 @@ export default function useApplicationData() {
     });
   }, []);
 
-  // const setDay = day => setState(prev => ({ ...prev, day }));
   const setDay = day => dispatch({ type: "SET_DAY", value: day });
 
   function bookInterview(id, interview) {
-    // Change local state of interview when an interview is booked
-    // const appointment = {
-    //   ...state.appointments[id],
-    //   interview: { ...interview }
-    // };
-    // const appointments = {
-    //   ...state.appointments,
-    //   [id]: appointment
-    // };
-    
     return axios.put(`/api/appointments/${id}`, { interview })
     .then(res => {
       updateSpots("create");
       const days = [...state.days]  //update days state to change the spots 
-      // setState({ ...state, appointments, days }); 
       dispatch({
         type: "SET_INTERVIEW",
         value: {id: id, interview: interview}
@@ -92,8 +69,6 @@ export default function useApplicationData() {
     return axios.delete(`api/appointments/${id}`, { interview: null })
     .then(res => {
       updateSpots("delete");
-      // const days = [...state.days]
-      // setState({ ...state, appointments, days });
       dispatch({
         type: "SET_INTERVIEW",
         value: {id: id, interview: null}
