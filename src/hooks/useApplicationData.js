@@ -35,7 +35,9 @@ export default function useApplicationData() {
     
     return axios.put(`/api/appointments/${id}`, { ...appointment })
     .then(res => {
-      setState({ ...state, appointments });
+      updateSpots("create");
+      const days = [...state.days]  //update days state to change the spots 
+      setState({ ...state, appointments, days }); 
     });
   }
 
@@ -49,7 +51,21 @@ export default function useApplicationData() {
       [id]: appointment
     }
     return axios.delete(`api/appointments/${id}`, { interview: null })
-    .then(setState({...state, appointments}))
+    .then(res => {
+      updateSpots("delete");
+      const days = [...state.days]
+      setState({ ...state, appointments, days });
+    })
+  }
+
+  function updateSpots(action) {
+    const day = state.days.find(day => day.name === state.day);
+    /* can also be determined by checking for null interview objects but not necessary */
+    if (action === "create") {
+      day.spots += 1;
+    } else {
+      day.spots -= 1;
+    }
   }
 
   return { state, setDay, bookInterview, cancelInterview };
