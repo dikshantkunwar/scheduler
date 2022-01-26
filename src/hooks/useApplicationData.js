@@ -14,7 +14,7 @@ function reducer(state, action) {
         days: action.value.days,
         appointments: action.value.appointments,
       }
-    case "SET_INTERVIEW":
+    case "SET_INTERVIEWERS":
       return { ...state, interviewers: action.value.interviewers }
     case "SET_SPOTS": {
       let days = state.days.map(d => {
@@ -36,7 +36,12 @@ function reducer(state, action) {
   }
 }
 export default function useApplicationData() {
-  const initialState = {day: "Monday", days: [], appointments: {}}
+  const initialState = {
+    day: "Monday", 
+    days: [], 
+    appointments: {},
+    interviewers: {}
+  }
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -51,9 +56,10 @@ export default function useApplicationData() {
          value: { days: days.data, appointments: appointments.data }
         });
       dispatch({
-        type: "SET_INTERVIEW",
+        type: "SET_INTERVIEWERS",
         value: { interviewers: interviewers.data }
       });
+      console.log(state)
     });
   }, []);
 
