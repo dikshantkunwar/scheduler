@@ -16,6 +16,41 @@ function reducer(state, action) {
       }
     case "SET_INTERVIEWERS":
       return { ...state, interviewers: action.value.interviewers }
+    case "SET_INTERVIEW": {
+      const appointments = { ...state.appointments };
+      // update the appointments data according to its id
+      appointments[action.value.id] = {
+        ...appointments[action.value.id],
+        interview: action.value.interview
+      }
+      // check spots through interviews
+      let spotsRemaining = 5; // total spots in a day
+      const days = [...state.days];
+
+      // check and update for each day
+      days.forEach( d => {
+        const appts = d.appointments.map( (id) => appointments[id]);
+        console.log('appts: ', appts)
+
+        appts.forEach( a => {
+          if (a.interview === null) {
+            spotsRemaining++;
+          } else {
+            spotsRemaining--;
+          }
+        });
+
+        d.spots = spotsRemaining;
+        spotsRemaining = 5; // reset for a new day
+      });
+
+      return {
+        ...state,
+        appointments,
+        days
+      }
+      
+    }
     case "SET_SPOTS": {
       let days = state.days.map(d => {
         if (d.name === state.day) {
@@ -45,6 +80,26 @@ export default function useApplicationData() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
+    let wsocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    wsocket.onopen = (event) => {
+      wsocket.send("ping");
+    }
+
+    wsocket.onmessage = function (event) {
+      const response = event.data;
+      console.log(response);
+
+      if (response.type === "SET_INTERVIEW") {
+        dispatch({
+          type: "SET_INTERVIEW",
+          value: {
+            id: response.id,
+            interview: response.interview
+          }
+        })
+      }
+    }
+
     Promise.all([
       axios.get('/api/days'),
       axios.get('/api/appointments'),
@@ -59,7 +114,6 @@ export default function useApplicationData() {
         type: "SET_INTERVIEWERS",
         value: { interviewers: interviewers.data }
       });
-      console.log(state)
     });
   }, []);
 
