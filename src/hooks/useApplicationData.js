@@ -5,32 +5,34 @@ function reducer(state, action) {
   switch(action.type){
     case "SET_DAY": 
       return {
-        ...state, 
-        day: action.value.day
+        ...state,
+        day: action.value
       };
     case "SET_APPLICATION_DATA":
       return {
         ...state,
         days: action.value.days,
         appointments: action.value.appointments,
-        interviewers: action.value.interviewers
       }
     case "SET_INTERVIEW":
-      const appointment = {
-        ...state.appointments[action.value.id],
-        interview : {...action.value.interview}
-      }
-      const appointments = {
-        ...state.appointments,
-        [action.value.id]: appointment
-      };
-
-      const days = [...state.days];
+      return { ...state, interviewers: action.value.interviewers }
+    case "SET_SPOTS": {
+      let days = state.days.map(d => {
+        if (d.name === state.day) {
+          return {
+            ...d,
+            spots: d.spots + action.value.update
+          };
+        }
+        return d;
+      });
       return {
         ...state,
-        appointments,
         days
-      }
+      };
+    }
+    default: 
+      throw new Error(`Tried to reduce with unsupported action type: ${action.type}`);
   }
 }
 export default function useApplicationData() {
@@ -46,44 +48,60 @@ export default function useApplicationData() {
       const [days, appointments, interviewers] = all;
       dispatch({
          type: "SET_APPLICATION_DATA", 
-         value: {days: days.data, appointments: appointments.data, interviewers: interviewers.data}
+         value: { days: days.data, appointments: appointments.data }
         });
+      dispatch({
+        type: "SET_INTERVIEW",
+        value: { interviewers: interviewers.data }
+      });
     });
   }, []);
 
-  const setDay = day => dispatch({ type: "SET_DAY", value: day });
+  const setDay = (day) => dispatch({ type: "SET_DAY", value: day });
 
   function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    }
     return axios.put(`/api/appointments/${id}`, { interview })
     .then(res => {
-      updateSpots("create");
-      const days = [...state.days]  //update days state to change the spots 
       dispatch({
-        type: "SET_INTERVIEW",
-        value: {id: id, interview: interview}
+        type: "SET_APPLICATION_DATA",
+        value: { appointments: appointments }
       });
+      dispatch({
+        type: "SET_SPOTS",
+        value: {id, update: -1}
+      })      
     });
   }
 
   function cancelInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    }
+    const appointments = {
+      ...state.appointments, 
+      [id]: appointment
+    }
     return axios.delete(`api/appointments/${id}`, { interview: null })
     .then(res => {
-      updateSpots("delete");
       dispatch({
-        type: "SET_INTERVIEW",
-        value: {id: id, interview: null}
+        type: "SET_APPLICATION_DATA",
+        value: { appointments: appointments }
       });
+      dispatch({
+        type: "SET_SPOTS",
+        value: { id , update: 1}
+      })
+      
     })
-  }
-
-  function updateSpots(action) {
-    const day = state.days.find(day => day.name === state.day);
-    /* can also be determined by checking for null interview objects but not necessary */
-    if (action === "create") {
-      day.spots += 1;
-    } else {
-      day.spots -= 1;
-    }
   }
 
   return { state, setDay, bookInterview, cancelInterview };
