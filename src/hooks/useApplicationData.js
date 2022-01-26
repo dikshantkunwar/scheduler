@@ -11,7 +11,7 @@ function reducer(state, action) {
     case "SET_APPLICATION_DATA":
       return {
         ...state,
-        days: action.value.days,
+        days: action.value.days || state.days,
         appointments: action.value.appointments,
       }
     case "SET_INTERVIEWERS":
@@ -83,7 +83,7 @@ export default function useApplicationData() {
       dispatch({
         type: "SET_SPOTS",
         value: {id, update: -1}
-      })      
+      });      
     });
   }
 
