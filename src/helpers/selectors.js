@@ -29,29 +29,11 @@ export function getAppointmentsForDay(state, day) {
 
   return appointmentArr;
 }
-/*
-- Expected
-    + Received
 
-    - ObjectContaining {
-    -   "interviewer": ObjectContaining {
-    -     "avatar": Any<String>,
-    -     "id": Any<Number>,
-    -     "name": Any<String>,
-    -   },
-    -   "student": Any<String>,
-
-    + Object {
-    +   "interviewer": 2,
-    +   "student": "Archie Cohen",
-      }
- */
-// const interview = getInterview(state, appointment.interview);
 export function getInterview(state, interview) {
   if (interview === null) {
     return null
   }
-
   let interviewObj = { ...interview }
   for (let key in state.interviewers) {
     if (key === interview.interviewer.toString()) {
@@ -62,16 +44,14 @@ export function getInterview(state, interview) {
 }
 
 export function getInterviewersForDay (state, day) {
-  const interviewerIdx = state.days.filter(days => days.name === day);
+  const interviewerIdx = state.days.filter(d => d.name === day);
   let interviewerArr = [];
-
   if (interviewerIdx.length === 0) {
     return [];
   } else {
-    for (let id of interviewerIdx[0].interviewers) {
-      interviewerArr.push(state.interviewers[id])
+    for (let id of interviewerIdx[0].appointments) {
+      interviewerArr.push(state.appointments[id])
     }
   }
-
   return interviewerArr;
 }
