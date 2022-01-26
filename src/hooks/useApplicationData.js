@@ -85,10 +85,8 @@ export default function useApplicationData() {
       wsocket.send("ping");
     }
 
-    wsocket.onmessage = function (event) {
+    wsocket.onmessage =  (event) => {
       const response = event.data;
-      console.log(response);
-
       if (response.type === "SET_INTERVIEW") {
         dispatch({
           type: "SET_INTERVIEW",
@@ -96,7 +94,7 @@ export default function useApplicationData() {
             id: response.id,
             interview: response.interview
           }
-        })
+        });
       }
     }
 
@@ -115,6 +113,8 @@ export default function useApplicationData() {
         value: { interviewers: interviewers.data }
       });
     });
+
+    wsocket.close();
   }, []);
 
   const setDay = (day) => dispatch({ type: "SET_DAY", value: day });
