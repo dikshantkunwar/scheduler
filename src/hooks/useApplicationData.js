@@ -119,7 +119,7 @@ export default function useApplicationData() {
 
   const setDay = (day) => dispatch({ type: "SET_DAY", value: day });
 
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview, edit = false) {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -134,10 +134,12 @@ export default function useApplicationData() {
         type: "SET_APPLICATION_DATA",
         value: { appointments: appointments }
       });
-      dispatch({
-        type: "SET_SPOTS",
-        value: {id, update: -1}
-      });      
+      if (!edit) {
+        dispatch({
+          type: "SET_SPOTS",
+          value: {id, update: -1}
+        });  
+      }
     });
   }
 

@@ -27,7 +27,7 @@ export default function Form(props) {
       setError("interviewer is empty")
       return;
     }
-    props.onSave(name, interviewer)
+    props.onSave(name, interviewer, props.editMode)
   }
 
   return (

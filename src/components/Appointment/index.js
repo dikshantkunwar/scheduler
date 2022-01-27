@@ -26,13 +26,13 @@ export default function Appointment(props) {
     interview ? SHOW : EMPTY
   )
 
-  function save(name, interviewer) {
+  function save(name, interviewer, edit) {
     const interview = {
       student: name, 
       interviewer
     };
     transition(SAVING);
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.id, interview, edit)
     .then(() => transition(SHOW))
     .catch(error => {
       transition(ERROR_SAVE, true);
@@ -54,7 +54,7 @@ export default function Appointment(props) {
   }, [interview, transition, mode])
 
   return(
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header id={props.id} time={time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SAVING && <Status message="SAVING" />}
@@ -81,6 +81,7 @@ export default function Appointment(props) {
           interviewers = {interviewerList}
           onCancel = {back}
           onSave = {save}
+          editMode = {true}
         />
       )}
       {mode === CONFIRM && (
