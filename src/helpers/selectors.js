@@ -44,14 +44,20 @@ export function getInterview(state, interview) {
 }
 
 export function getInterviewersForDay (state, day) {
-  const interviewerIdx = state.days.filter(d => d.name === day);
-  let interviewerArr = [];
-  if (interviewerIdx.length === 0) {
+  const interviewObj = state.days.filter(d => d.name === day);
+  if (interviewObj.length === 0) {
     return [];
-  } else {
-    for (let id of interviewerIdx[0].appointments) {
-      interviewerArr.push(state.appointments[id])
-    }
   }
+
+  const interviewers = interviewObj[0].appointments;
+  if (interviewers === undefined) {
+    return [];
+  }
+  let interviewerArr = [];
+  interviewers.forEach( item => {
+    if (state.interviewers.hasOwnProperty(item)) {
+      interviewerArr.push(state.interviewers[item])
+    }
+  });
   return interviewerArr;
 }
