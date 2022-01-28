@@ -79,15 +79,45 @@ export default {
     }
   }),
   put: jest.fn(url => {
-    return Promise.resolve({
-      status: 204,
-      statusText: "No Content"
-    });
+    switch(url) {
+      case "/api/days":
+        return Promise.resolve({
+          status: 200,
+          statusText: "OK",
+        });
+
+      case "/api/appointments": 
+        return Promise.resolve({
+          status: 200, 
+          statusText: "OK",
+        });
+      
+      case "/api/interviewers":
+        return Promise.resolve({
+          status: 200, 
+          statusText: "OK",
+        });
+    }
   }),
   delete: jest.fn(url => {
-    return Promise.resolve({
-      status: 204,
-      statusText: "No Content"
-    })
+    switch(url) {
+      case "/api/days":
+        return Promise.resolve({
+          status: 200,
+          statusText: "OK",
+        });
+
+      case "/api/appointments": 
+        return Promise.resolve({
+          status: 200, 
+          statusText: "OK",
+        });
+      
+      case "/api/interviewers":
+        return Promise.resolve({
+          status: 200, 
+          statusText: "OK"
+        });
+    }
   })
 }
