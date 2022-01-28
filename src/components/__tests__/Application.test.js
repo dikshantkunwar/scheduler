@@ -6,12 +6,13 @@ import {
   cleanup, 
   waitForElement, 
   fireEvent, 
-  prettyDOM, 
   getByText,
   getAllByTestId,
   getByAltText,
   getByPlaceholderText,
   queryByText,
+  queryByAltText,
+  findByText,
  } from "@testing-library/react";
 
 import Application from "components/Application";
@@ -113,11 +114,10 @@ describe("Application", () => {
 
   it("shows the delete error when failing to delete an existing appointment", async () => {
     const { container } = render(<Application />);
-    console.log(prettyDOM(container));
-    await waitForElement(() => getByText(container, "Archie Cohen"));
-
+    
+    await findByText(container, "Archie Cohen");
     const appointment = getAllByTestId(container, "appointment").find(
-        (appointment) => getByText(appointment, "Archie Cohen")
+        (appointment) => queryByText(appointment, "Archie Cohen")
     );
 
     fireEvent.click(queryByAltText(appointment, "Delete"));
@@ -126,6 +126,5 @@ describe("Application", () => {
     fireEvent.click(getByText(appointment, "Confirm"));
 
     axios.delete.mockRejectedValueOnce();
-
   });
 });

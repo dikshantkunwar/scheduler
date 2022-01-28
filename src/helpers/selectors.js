@@ -53,11 +53,13 @@ export function getInterviewersForDay (state, day) {
   if (interviewers === undefined) {
     return [];
   }
+
   let interviewerArr = [];
   interviewers.forEach( item => {
     if (state.interviewers.hasOwnProperty(item)) {
       interviewerArr.push(state.interviewers[item])
     }
   });
+
   return interviewerArr;
 }
