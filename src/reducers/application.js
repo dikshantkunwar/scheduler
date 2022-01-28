@@ -35,8 +35,6 @@ export default function reducer(state, action) {
       // check and update for each day
       days.forEach( d => {
         const appts = d.appointments.map( (id) => appointments[id]);
-        console.log('appts: ', appts)
-
         appts.forEach( a => {
           if (a.interview === null) {
             spotsRemaining++;
